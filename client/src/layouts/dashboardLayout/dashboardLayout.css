@@ -1,0 +1,30 @@
+.dashboardLayout {
+  display: flex;
+  gap: 50px;
+  padding-top: 20px;
+  height: 100%;
+
+  .menu {
+    flex: 1;
+  }
+
+  .content {
+    flex: 4;
+    background-color: #ececec;
+  }
+}
+
+.loading-spinner {
+  border: 8px solid #ececec;
+  border-top: 8px solid #888;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #ececec;
+  color: #0e0c16;
+  font-family: Quicksand, sans-serif !important;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
