@@ -22,4 +22,9 @@ const model = genAI.getGenerativeModel({
   safetySetting,
 });
 
+const startChat = ({ endpoint, ...options }) => {
+  // Pastikan endpoint diterima sebagai parameter
+  return new ModelClient(endpoint).startChat(options);
+};
+
 export default model;

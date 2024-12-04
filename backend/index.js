@@ -8,6 +8,7 @@ import Chat from "./models/chat.js";
 import UserChats from "./models/userChats.js";
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import dotenv from "dotenv";
+import upload from "./middleware/fileupload.js"; // import upload middleware
 
 // Load environment variables from .env file
 dotenv.config();
@@ -46,6 +47,17 @@ app.get("/api/upload", (req, res) => {
   const result = imagekit.getAuthenticationParameters();
   res.send(result);
 });
+
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  if (req.file) {
+    // Ganti backslash dengan slash untuk memastikan URL dapat diakses di browser
+    const filePath = req.file.path.replace(/\\/g, '/');
+    res.json({ message: "File uploaded successfully", filePath });
+  } else {
+    res.status(400).json({ message: "No file uploaded" });
+  }
+});
+
 
 app.post("/api/chats", ClerkExpressRequireAuth(), async (req, res) => {
   const userId = req.auth.userId;
@@ -188,7 +200,8 @@ app.use((err, req, res, next) => {
 });
 
 // PRODUCTION
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist", "index.html"));

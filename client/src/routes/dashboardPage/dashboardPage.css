@@ -112,3 +112,34 @@
     }
   }
 }
+
+.agent-selection {
+  width: 20%;
+  display: flex;
+  align-items: center;
+
+  select {
+    flex: 1;
+    padding: 8px 10px; /* Kurangi padding untuk ukuran lebih kecil */
+    border: none;
+    border-radius: 8px; /* Kurangi radius untuk tampilan lebih ringkas */
+    background-color: #d1d1d1; /* Warna latar tetap */
+    font-size: 12px; /* Font lebih kecil */
+    color: #2c2937; /* Warna teks tetap sama */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Bayangan lebih ringan */
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #dcdbdb; /* Warna hover sedikit gelap */
+    }
+
+    &:focus {
+      outline: 1px solid #2c2937; /* Highlight lebih tipis */
+      background-color: #fff;
+    }
+  }
+}
+
+select {
+  max-width: 200px; /* Batasi lebar maksimal jika diperlukan */
+}

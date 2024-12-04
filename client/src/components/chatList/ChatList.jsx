@@ -31,7 +31,6 @@ const ChatList = () => {
         navigate("/dashboard");
       }
 
-      // alert("Chat deleted successfully!");
       refetch();
     } catch (error) {
       console.error(error);
@@ -43,19 +42,17 @@ const ChatList = () => {
     <div className="chatList">
       <span className="title">DASHBOARD</span>
       <Link to="/dashboard">
-        <div className="link-container">
-          Create a new Chat
-        </div>
+        <div className="link-container">Create a new Chat</div>
       </Link>
       <Link to="/">
-        <div className="link-container">
-          Explore
-        </div>
+        <div className="link-container">Explore</div>
       </Link>
       <Link to="/">
-        <div className="link-container">
-          Contact
-        </div>
+        <div className="link-container">Contact</div>
+      </Link>
+      {/* Tambahkan link ke tab baru untuk upload file */}
+      <Link to="/upload">
+        <div className="link-container">Upload File</div>
       </Link>
       <hr />
       <span className="title">RECENT CHATS</span>
@@ -65,16 +62,19 @@ const ChatList = () => {
         ) : error ? (
           "Something went wrong!"
         ) : (
-          data?.reverse().map((chat) => (
+          data?.map((chat) => (
             <div key={chat._id}>
               <Link to={`/dashboard/chats/${chat._id}`}>
                 <div className="link-container">
-                  <div className="chat-title">
-                    {chat.title}
-                  </div>
+                  <div className="chat-title">{chat.title}</div>
                   <div className="fadeblock">
                     <button onClick={() => handleDelete(chat._id)} className="delete-button">
-                      <svg data-name="Layer 2" id="b1bec25a-a443-4da7-b443-3916ea7ea246" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 35 35"
+                        width="24"
+                        height="24"
+                      >
                         <path d="M28.814,30.064a1.247,1.247,0,0,1-.884-.367L5.3,7.07A1.249,1.249,0,0,1,7.07,5.3L29.7,27.93a1.251,1.251,0,0,1-.884,2.134Z" />
                         <path d="M6.186,30.064A1.251,1.251,0,0,1,5.3,27.93L27.93,5.3A1.25,1.25,0,0,1,29.7,7.07L7.07,29.7A1.247,1.247,0,0,1,6.186,30.064Z" />
                       </svg>

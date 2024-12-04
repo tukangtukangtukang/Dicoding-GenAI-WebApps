@@ -16,7 +16,23 @@ const NewPrompt = ({ data }) => {
     aiData: {},
   });
 
+  const [selectedAgent, setSelectedAgent] = useState(
+    import.meta.env.VITE_DEFAULT_AGENT || ""
+  );  
+  
+
+  const isChatStarted = data?.history?.length > 0; // Periksa apakah chat sudah dimulai
+
+  const handleAgentChange = (e) => {
+    if (!isChatStarted) {
+      setSelectedAgent(e.target.value);
+    } else {
+      alert("Agent can only be changed before the chat starts!");
+    }
+  };
+
   const chat = model.startChat({
+    endpoint: selectedAgent, // Gunakan agen yang dipilih
     history: data?.history?.map(({ role, parts }) => ({
       role,
       parts: [{ text: parts[0].text }],
@@ -97,10 +113,11 @@ const NewPrompt = ({ data }) => {
     const text = e.target.text.value;
     if (!text) return;
 
+    const file = e.target.file.files[0];
+    console.log(file);
     add(text, false);
   };
 
-  // IN PRODUCTION WE DON'T NEED IT
   const hasRun = useRef(false);
 
   useEffect(() => {
@@ -114,7 +131,24 @@ const NewPrompt = ({ data }) => {
 
   return (
     <>
-      {/* ADD NEW CHAT */}
+      {/* Dropdown untuk memilih agen */}
+      {!isChatStarted && (
+        <div className="agent-selector">
+        <label htmlFor="agent">Select Agent:</label>
+        <select
+          id="agent"
+          onChange={handleAgentChange}
+          value={selectedAgent !== null ? selectedAgent : ""}
+        >
+          <option value="">Pilih Agen</option>
+          <option value="http://agent1-url.com">Agent 1</option>
+          <option value="http://agent2-url.com">Agent 2</option>
+        </select>
+
+      </div>
+      
+      )}
+
       {img.isLoading && <div className="">Loading...</div>}
       {img.dbData?.filePath && (
         <IKImage
@@ -133,7 +167,7 @@ const NewPrompt = ({ data }) => {
       <div className="endChat" ref={endRef}></div>
       <form className="newForm" onSubmit={handleSubmit} ref={formRef}>
         <Upload setImg={setImg} />
-        <input id="file" type="file" multiple={false} hidden />
+        <input id="file" type="file" name="file" multiple={false} hidden />
         <input type="text" name="text" placeholder="Ask anything..." />
         <button>
           <svg
@@ -143,7 +177,7 @@ const NewPrompt = ({ data }) => {
             width="24px"
             fill="currentColor"
           >
-            <path d="M374.6 246.6C368.4 252.9 360.2 256 352 256s-16.38-3.125-22.62-9.375L224 141.3V448c0 17.69-14.33 31.1-31.1 31.1S160 465.7 160 448V141.3L54.63 246.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160C387.1 213.9 387.1 234.1 374.6 246.6z"/>
+            <path d="M374.6 246.6C368.4 252.9 360.2 256 352 256s-16.38-3.125-22.62-9.375L224 141.3V448c0 17.69-14.33 31.1-31.1 31.1S160 465.7 160 448V141.3L54.63 246.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160C387.1 213.9 387.1 234.1 374.6 246.6z" />
           </svg>
         </button>
       </form>
