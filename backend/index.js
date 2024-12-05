@@ -50,13 +50,16 @@ app.get("/api/upload", (req, res) => {
 
 app.post("/api/upload", upload.single("file"), (req, res) => {
   if (req.file) {
-    // Ganti backslash dengan slash untuk memastikan URL dapat diakses di browser
-    const filePath = req.file.path.replace(/\\/g, '/');
-    res.json({ message: "File uploaded successfully", filePath });
+    res.json({
+      message: "File uploaded successfully",
+      filePath: req.file.path.replace(/\\/g, "/"), // Mengganti backslash dengan slash
+      fileName: req.file.originalname,            // Nama asli file yang diunggah
+    });
   } else {
     res.status(400).json({ message: "No file uploaded" });
   }
 });
+
 
 
 app.post("/api/chats", ClerkExpressRequireAuth(), async (req, res) => {
